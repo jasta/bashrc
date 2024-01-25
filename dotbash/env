@@ -1,0 +1,71 @@
+###############################################################################
+##
+## $Id: env,v 1.3 2004/09/29 14:17:24 jasta Exp $ vim:ft=sh:
+##
+## Copyright (C) 2004 Josh Guilfoyle <jasta@faradic.net>
+##
+## This program is free software; you can redistribute it and/or modify it
+## under the terms of the GNU General Public License as published by the
+## Free Software Foundation; either version 2, or (at your option) any
+## later version.
+##
+## This program is distributed in the hope that it will be useful, but
+## WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+## General Public License for more details.
+##
+###############################################################################
+
+# Make sure our local bin dir is added.  This is where most of my stupid
+# scripts are held.
+export PATH="$HOME/bin:$HOME/.local/bin:$PATH:$HOME/work"
+
+# This is probably a bit like the default, but we'll set it here to be
+# explicit anyway.
+export HISTIGNORE="[ 	]*:&:bg:fg:ls"
+
+# _LOTS_ of history.  I usually rotate my history file manually after a couple
+# of months.
+export HISTSIZE=100000
+export HISTFILESIZE=10000000
+
+# Not sure why I prefer this, actually.
+export SCREENDIR="$HOME/tmp"
+
+# Replace RSH.
+export RSH=ssh
+export CVS_RSH="$RSH"
+
+###############################################################################
+
+# Is there any other?
+export EDITOR=vim
+
+# Web browser.
+case "$TERM" in
+
+ screen)     export BROWSER=links    ;;
+ linux)      export BROWSER=links    ;;
+ dumb)       export BROWSER=lynx     ;;
+ *)          export BROWSER=firefox  ;;
+
+esac
+
+# IRC client.  This is not actually read by anything that I know of, but I'll
+# try to be a trend-setter.
+export IRC=irssi
+
+# Program for handling .todo files.
+export TODO=devtodo
+export TODO_NOTIFY=1
+
+###############################################################################
+
+# Add a special convention to describe just how truly sexy urxvt is.
+if [ "$TERM" = "rxvt-unicode" ]; then
+	export TERMCOLORS=88
+elif [ "$TERM" != "dumb" ]; then
+	export TERMCOLORS=8
+else
+	export TERMCOLORS=0
+fi

@@ -1,0 +1,64 @@
+###############################################################################
+##
+## $Id: rc,v 1.3 2004/09/29 14:42:43 jasta Exp $ vim:ft=sh:
+##
+## Copyright (C) 2004 Josh Guilfoyle <jasta@faradic.net>
+##
+## This program is free software; you can redistribute it and/or modify it
+## under the terms of the GNU General Public License as published by the
+## Free Software Foundation; either version 2, or (at your option) any
+## later version.
+##
+## This program is distributed in the hope that it will be useful, but
+## WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+## General Public License for more details.
+##
+###############################################################################
+
+function runtime
+{
+	local run=$1
+	local path="$HOME/.bash/$run"
+
+	if [ -r $path ]; then
+		source $path
+	fi
+}
+
+function runparts
+{
+	local run=$1
+	local path="$HOME/.bash/$run"
+
+	# We will not use run-parts here because of the extra process requirement.
+	# This is both a performance penalty and a functional difficulty to allow
+	# scripts to modify the current process environment.
+	if [ -d $path ]; then
+		for part in $path/*; do
+			if [ -r $part ]; then
+				source $part
+			fi
+		done
+	fi
+}
+
+runtime env
+runtime aliases
+runtime completion
+
+runtime colors
+runtime prompt
+runtime dircolors
+
+runtime todo
+
+runtime xtitle
+
+# Run host-specific configuration.
+runparts "$(hostname).d"
+
+
+# This line was appended by KDE
+# Make sure our customised gtkrc file is loaded.
+export GTK2_RC_FILES=$HOME/.gtkrc-2.0

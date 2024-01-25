@@ -1,0 +1,104 @@
+###############################################################################
+##
+## $Id: colors,v 1.1.1.1 2004/09/29 13:29:30 jasta Exp $ vim:ft=sh:
+##
+## Copyright (C) 2004 Josh Guilfoyle <jasta@faradic.net>
+##
+## This program is free software; you can redistribute it and/or modify it
+## under the terms of the GNU General Public License as published by the
+## Free Software Foundation; either version 2, or (at your option) any
+## later version.
+##
+## This program is distributed in the hope that it will be useful, but
+## WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+## General Public License for more details.
+##
+###############################################################################
+
+#
+# Usage:
+#
+#  pcolor <attribute> [ <primary-color> [ <fallback-color> ] ]
+#
+function pcolor
+{
+	local attr="$1"
+	local str=''
+		
+	# Special RESET case when no other attributes are present.  When an
+	# attribute of 0 is supplied with a color, it is ignored.
+	if [ "$attr" != 0 -o $# == 1 ]; then
+		
+		# Prepend the attribute.
+		str="\033[${attr}m"
+		
+	fi
+
+
+	if [ $# -gt 1 ]; then
+
+		local col="$2"
+
+		# Handle fallback colors for when the terminal can't support
+		# the color requested.
+		term_has_color $col ||
+		  col="$3"
+
+		# Draw the color according to the current terminals capabilities.  Note
+		# that there is no else case to fall through, so make sure you have
+		# $TERMCOLORS defined somewhere!
+		if [ "$TERMCOLORS" = 88 ]; then
+
+			str="$str\033[38;5;${col}m"
+
+		elif [ "$TERMCOLORS" = 8 ]; then
+
+			if [ "$col" -gt 8 ]; then
+
+				# Bold the color and drop the number.
+				str="$str\033[1m"
+				col=$((${col}-8))
+
+			fi
+
+			str="$str\033[3${col}m"
+			
+		fi
+
+	fi
+
+	echo "$str"
+}
+
+#
+# Usage:
+#
+#   term_has_color [ <color> ]
+#
+function term_has_color
+{
+	if [ $# == 0 ]; then
+
+		[ "$TERMCOLORS" > 0 ]
+		return $?
+
+	else
+
+		local col="$1"
+
+		if [ "$col" -lt "$TERMCOLORS" ]; then
+			
+			return 0
+			
+		else
+
+			[ "$col" -lt 16 -a "$TERMCOLORS" = 8 ]
+			return $?
+			
+		fi
+		
+	fi
+
+	return 1
+}

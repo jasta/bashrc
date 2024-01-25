@@ -1,0 +1,70 @@
+###############################################################################
+##
+## $Id: todo,v 1.1 2004/09/29 14:16:05 jasta Exp $ vim:ft=sh:
+##
+## This program is free software; you can redistribute it and/or modify it
+## under the terms of the GNU General Public License as published by the
+## Free Software Foundation; either version 2, or (at your option) any
+## later version.
+##
+## This program is distributed in the hope that it will be useful, but
+## WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+## General Public License for more details.
+##
+###############################################################################
+
+# Show the configured devtodo output for the current directory.
+function __showtodo()
+{
+	# First check if theres a .todo file, which will be the least
+	# expensive thing we're going to do on successful cd.
+	if [ ! -f ".todo" -o ! "$TODO" ]; then
+		return
+	fi
+
+	# Actually capture the output.
+	local output=$($TODO --force-colour)
+
+	# Bail if nothing is outstanding.
+	if [ ! "$output" ]; then
+		return
+	fi
+
+	#
+	# If we made it this far, we know there are outstanding todo elements,
+	# and that we have captured them.  Now it's time to apply the user's
+	# preference and provide the expected output.
+	#
+
+	if [ "$TODO_NOTIFY" = 1 ]; then
+		echo "You have todo entries in $PWD/.todo"
+	fi
+
+	if [ "$TODO_SHOW" = 1 ]; then
+		echo $output
+	fi
+}
+
+#
+# Override cd.  This is very dangerous, so lets be on our absolute best
+# behaviour.
+#
+function __todocd()
+{
+	# Upon successful directory changes, check if we have a .todo file to
+	# operate on.
+	cd ${1+"$@"} && __showtodo
+}
+
+###############################################################################
+
+# Again with the safety theme, do not change cd's alias if it already is an
+# alias!
+if [ ! "$(alias cd 2>/dev/null)" ]; then
+	alias cd='__todocd'
+fi
+
+# Assuming this is a new shell, try showing the todo for the current dir where
+# the shell was started from.
+__showtodo

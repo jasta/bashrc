@@ -1,0 +1,139 @@
+###############################################################################
+##
+## $Id: completion,v 1.1.1.1 2004/09/29 13:29:30 jasta Exp $ vim:ft=sh:
+##
+## Copyright (C) 2004 Josh Guilfoyle <jasta@faradic.net>
+##
+## This program is free software; you can redistribute it and/or modify it
+## under the terms of the GNU General Public License as published by the
+## Free Software Foundation; either version 2, or (at your option) any
+## later version.
+##
+## This program is distributed in the hope that it will be useful, but
+## WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+## General Public License for more details.
+##
+###############################################################################
+
+export FIGNORE=".svn"
+
+# Extended globbing.
+shopt -s extglob
+
+# Force-enable tab-completion.
+#bind 'TAB:complete'
+
+###############################################################################
+
+complete -f chown ln more less cat strip
+complete -d mkdir rmdir
+complete -f -X '*.gz' gzip
+complete -f -X '*.Z' compress
+complete -f -X '*.bz2' bzip2
+complete -f -X '!*.Z' uncompress zmore zcat
+complete -u su
+complete -W '`cat /etc/hosts | awk -F\  '\''{print $2;}'\''`' telnet
+
+###############################################################################
+
+complete -f -X '!*.+(gif|jpg|jpeg|GIF|JPG|bmp)' xv
+complete -W '`cat ~/.ssh/known_hosts | cut -d"," -f1`' ssh
+complete -f -X '!*.+(divx|DivX|asf|ASF|avi|AVI)' aviplay
+complete -f -X '!*.mp+(e|)g' mtvp gtv
+complete -f -X '!*.+(avi|AVI|mpg|MPG|mpeg|mov|MOV)' xanim
+complete -W "irc.openprojects.net irc.planetarion.com irc.primenet.com" BitchX
+
+###############################################################################
+
+complete -W '`awk -F= '\''{print $1;}'\'' < ~/.cam_bookmarks`' cam
+complete -W '`cat ~/.ncftp/bookmarks | cut -d, -f1 | grep -v \ `' ncftp
+complete -W '`cat ~/.lftp/bookmarks | cut -d"	" -f1`' lftp
+
+###############################################################################
+
+function complete_apt
+{
+	COMPREPLY=( $(compgen -W '`apt-cache pkgnames $2`' "$2") )
+}
+
+complete -F complete_apt apt-get
+
+function complete_mutt
+{
+	case "$3" in
+	
+	 -*)      return  ;;
+	 *)               ;;
+	 
+	esac
+
+	local aliases=`grep ^alias ~/.mail_aliases | awk '{print $2}'`
+
+	COMPREPLY=( $(compgen -W '$aliases' "$2") )
+}
+
+complete -o default -F complete_mutt mutt
+
+function complete_screen
+{
+	local attached=`screen -list | grep Attached | awk '{print $1}' | perl -p -e 's/\s+$/ /;'`
+	local detached=`screen -list | grep Detached | awk '{print $1}' | perl -p -e 's/\s+$/ /;'`
+
+	case "$3" in
+	
+	 -r*)     COMPREPLY=( $(compgen -W "$detached" "$2") )  ;;
+	 -d*)     COMPREPLY=( $(compgen -W "$attached" "$2") )  ;;
+	 *)       return                                        ;;
+
+	esac
+}
+
+complete -F complete_screen screen
+
+function complete_dict
+{
+	local word=$2
+
+	if [ ! "$word" ]; then
+		return
+	fi
+
+	local words=$($HOME/words/lookup.sh $2 | perl -p -e 's/\s+$/ /g;')
+
+	COMPREPLY=( $(compgen -W "$words" $2) )
+}
+
+complete -F complete_dict dict
+
+function complete_cd
+{
+	local dirs=$(compgen -d $2)
+
+	case "$2" in
+	
+	 ~*)      COMPREPLY=( $dirs $(compgen -u $2) )  ;;
+
+	esac
+}
+
+complete -d -F complete_cd cd
+
+function complete_configure
+{
+        case "$2" in
+		
+         -*)              ;;
+         *)       return  ;;
+        esac
+
+        case "$1" in
+		
+         \~*)     eval cmd=$1  ;;
+         *)       cmd="$1"     ;;
+        esac
+
+        COMPREPLY=( $("$cmd" --help | awk '{if ($1 ~ /--.*/) print $1}' | grep ^"$2" | sort -u) )
+}
+
+complete -F _configure_func configure

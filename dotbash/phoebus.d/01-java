@@ -1,0 +1,10 @@
+###############################################################################
+##
+## $Id$ vim:set ft=sh:
+##
+###############################################################################
+
+export JAVA8_HOME="/usr/lib/jvm/java-8-openjdk-amd64"
+export JAVA7_HOME="/usr/lib/jvm/java-7-oracle"
+export JAVA11_HOME="/usr/lib/jvm/java-11-openjdk-amd64"
+export JAVA_HOME="$JAVA11_HOME"

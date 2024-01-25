@@ -1,0 +1,29 @@
+###############################################################################
+##
+## $Id$ vim:set ft=sh:
+##
+###############################################################################
+
+export ANDROID_JAVA_HOME=$JAVA_HOME
+export ANDROID_SDK="/usr/local/lib/android"
+export ANDROID_NDK="/usr/local/lib/android-ndk"
+export ANDROID_NDK_TOOLCHAIN="/usr/local/lib/android-ndk-toolchain"
+export ANDROID_HOME="$ANDROID_SDK"
+export PATH="$PATH:$ANDROID_SDK/tools:$ANDROID_SDK/platform-tools"
+export PATH="$PATH:$ANDROID_SDK/build-tools/26.0.0"
+export PATH="$PATH:$ANDROID_NDK:$ANDROID_NDK_TOOLCHAIN/bin"
+
+function logcat()
+{
+	adb ${1+"$@"} logcat -v brief | colorlogcat
+}
+
+function plogcat()
+{
+	adb logcat -v brief | proclogcat $* | colorlogcat
+}
+
+function pickdevice()
+{
+	eval $(pickdevice.pl)
+}

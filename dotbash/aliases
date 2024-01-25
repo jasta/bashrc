@@ -1,0 +1,126 @@
+###############################################################################
+##
+## $Id: aliases,v 1.1.1.1 2004/09/29 13:29:30 jasta Exp $ vim:ft=sh:
+##
+## Copyright (C) 2004 Josh Guilfoyle <jasta@faradic.net>
+##
+## This program is free software; you can redistribute it and/or modify it
+## under the terms of the GNU General Public License as published by the
+## Free Software Foundation; either version 2, or (at your option) any
+## later version.
+##
+## This program is distributed in the hope that it will be useful, but
+## WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+## General Public License for more details.
+##
+###############################################################################
+
+alias cp='cp -i'
+alias mv='mv -i'
+alias grep='grep -s'
+alias hgrep='history | grep'
+alias df='df -h'
+alias ps='ps -w'
+
+###############################################################################
+
+alias s='cd ..'
+
+function mvcd
+{
+	mv "$1" "$2" && cd "$2"
+}
+
+alias l='ls'
+alias ll='ls -lh'
+alias ls='ls --col=yes -F'
+alias lsT='ls -tr1sh'
+alias lss='ls -Sr1sh'
+
+function lst
+{
+	ls -tr1sh ${1+"$@"} | tail -50
+}
+
+alias grep='grep --color=auto'
+
+###############################################################################
+
+function phoebus
+{
+	if [ -z "$(ssh-add -l | wc -l)" ]; then
+		ssh-add
+	fi
+
+	ssh -t -p 2222 jasta@jasta.dyndns.org ssh phoebus
+}
+
+###############################################################################
+
+alias mpci='gmplayer -vo x11 -xineramascreen 2 -zoom'
+#alias mplayer='gmplayer'
+
+if [ "$(which colorcvs 2>/dev/null)" ]; then
+	alias cvs='colorcvs'
+fi
+
+function spell
+{
+	echo $* | ispell -a
+}
+
+function randplaysleep
+{
+	local path=$1
+
+	if [ -z "$path" ]; then
+		path='.'
+	fi
+
+	find "$path" -type f ! -name "*.mp3" -and ! -name "*.ogg" | \
+	  sortrand | \
+	  perl -pe 's/\s+$/\0/g;' | \
+	  xargs -l1 -0 -- xterm -e playsleep
+}
+
+###############################################################################
+
+function svndiff()
+{
+	svn diff $@ | colordiff
+}
+
+###############################################################################
+
+function unzipto()
+{
+	local file=$1
+	local ext=$2
+
+	if [ ! "$file" ]; then
+		echo "Usage: unzipto <file.zip> [ext]"
+		test
+	else
+		if [ ! "$ext" ]; then
+			ext=zip
+		fi
+
+		local dir=$(basename "$1" ".$ext")
+		mkdir "$dir" && \
+			cd "$dir" && \
+			unzip ../"$dir.$ext"
+	fi
+}
+
+###############################################################################
+
+#
+# Attach to the end of a grep pipe to open the matching files using $EDITOR.
+#
+function vgrep()
+{
+    local editor=${EDITOR:-vim}
+    cut -d: -f1 | sort -u | \
+            xargs -d '\n' sh -c $editor' "$@" < /dev/tty' $editor
+}

@@ -1,0 +1,59 @@
+###############################################################################
+##
+## $Id: prompt,v 1.2 2004/09/29 14:49:12 jasta Exp $ vim:ft=sh:
+##
+## Copyright (C) 2004 Josh Guilfoyle <jasta@faradic.net>
+##
+## This program is free software; you can redistribute it and/or modify it
+## under the terms of the GNU General Public License as published by the
+## Free Software Foundation; either version 2, or (at your option) any
+## later version.
+##
+## This program is distributed in the hope that it will be useful, but
+## WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+## General Public License for more details.
+##
+###############################################################################
+
+cRESET="\[$(pcolor 0)\]"
+cBLUE="\[$(pcolor 0 12)\]"
+cYELLOW="\[$(pcolor 0 11)\]"
+cPUKEISH="\[$(pcolor 0 57 11)\]"
+cGREEN="\[$(pcolor 0 41 2)\]"
+cORANGE="\[$(pcolor 0 3)\]"
+
+case "$(whoami)" in
+
+ root)      pUSERCOL="$cPUKEISH"  ;;
+ *)         pUSERCOL="$cYELLOW"   ;;
+
+esac
+
+case "$TERM" in
+
+ screen*)   pDELM="%"   ;;
+ *)         pDELM='\$'  ;;
+
+esac
+
+case "$HOSTNAME" in
+
+ phoebus*)  pHOSTCOL="$cYELLOW"   ;;
+ apollo*)   pHOSTCOL="$cYELLOW"   ;;
+ *.tcg)     pHOSTCOL="$cGREEN"    ;;
+ *)         pHOSTCOL="$cPUKEISH"  ;;
+
+esac
+
+PS1="$cRESET"
+PS1="$PS1$pUSERCOL\u$cRESET"
+PS1="$PS1 $cORANGE@$cRESET"
+PS1="$PS1 $pHOSTCOL\h$cRESET"
+PS1="$PS1 $cORANGE:$cRESET"
+PS1="$PS1 $cYELLOW\w$cRESET"
+PS1="$PS1 $cRESET$pDELM$cRESET "
+
+PS2="$cBLUE~$cRESET "
+
+export PS1 PS2

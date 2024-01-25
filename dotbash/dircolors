@@ -1,0 +1,28 @@
+###############################################################################
+##
+## $Id: dircolors,v 1.1.1.1 2004/09/29 13:29:30 jasta Exp $ vim:ft=sh:
+##
+## Copyright (C) 2004 Josh Guilfoyle <jasta@faradic.net>
+##
+## This program is free software; you can redistribute it and/or modify it
+## under the terms of the GNU General Public License as published by the
+## Free Software Foundation; either version 2, or (at your option) any
+## later version.
+##
+## This program is distributed in the hope that it will be useful, but
+## WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+## General Public License for more details.
+##
+###############################################################################
+
+# FIXME!
+if [ "$TERMCOLORS" = 88 ]; then
+	
+	export LS_COLORS="di=1;34:ln=38;5;14:*.gz=38;5;9:*.bz2=38;5;9:*.tar=38;5;9:*.tgz=38;5;9:*.zip=38;5;9:*.sit=38;5;9:*.mov=1;35:*.moov=1;35:*.mpg=1;35:*.mpeg=1;35:*.avi=1;35:*.wmv=1;35:*.asf=1;35:*.jpg=38;5;5:*.JPG=38;5;5:*.gif=38;5;5:*.png=38;5;5:*.xcf=38;5;5:*.bmp=38;5;5:*.tiff=38;5;5:*.psd=38;5;5:*.xpm=38;5;5:*.xbm=38;5;5:*.pcx=38;5;5:*.pnm=38;5;5:*.tga=38;5;5:*.wmf=38;5;5:*.wjt=38;5;5:*.xwd=38;5;5:*.pic=38;5;5:*.tif=38;5;5:*.mp3=38;5;5:*.ogg=38;5;5:*.mod=38;5;5:*.xm=38;5;5:*.it=38;5;5:*.s3m=38;5;5:*.wav=38;5;5:*.au=38;5;5:*.mxls=38;5;2:*.mxml=38;5;2:*.mhtml=38;5;2:*.html=38;5;2:*.htm=38;5;2:*.inc=38;5;2:*.php3=38;5;2:*.php=38;5;2:*.phps=38;5;2:*.c=38;5;2:*.h=38;5;2:*.cpp=38;5;2:*.sh=38;5;2:*.run=38;5;2:ex=38;5;10:*.conf=38;5;14:*.cfg=38;5;14:*.config=38;5;14:*.theme=38;5;6:*.txt=38;5;15"
+
+else
+
+	export LS_COLORS="di=1;34:ln=1;36:*.gz=1;31:*.bz2=1;31:*.tar=1;31:*.tgz=1;31:*.zip=1;31:*.sit=1;31:*.mov=1;35:*.moov=1;35:*.mpg=1;35:*.mpeg=1;35:*.avi=1;35:*.wmv=1;35:*.asf=1;35:*.jpg=0;35:*.JPG=0;35:*.gif=0;35:*.png=0;35:*.xcf=0;35:*.bmp=0;35:*.tiff=0;35:*.psd=0;35:*.xpm=0;35:*.xbm=0;35:*.pcx=0;35:*.pnm=0;35:*.tga=0;35:*.wmf=0;35:*.wjt=0;35:*.xwd=0;35:*.pic=0;35:*.tif=0;35:*.mp3=0;35:*.ogg=0;35:*.mod=0;35:*.xm=0;35:*.it=0;35:*.s3m=0;35:*.wav=0;35:*.au=0;35:*.mxls=0;32:*.mxml=0;32:*.mhtml=0;32:*.html=0;32:*.htm=0;32:*.inc=0;32:*.php3=0;32:*.php=0;32:*.phps=0;32:*.c=0;32:*.h=0;32:*.cpp=0;32:*.sh=0;32:*.run=0;32:ex=1;32:*.conf=1;36:*.cfg=1;36:*.config=1;36:*.theme=0;36:*.txt=1;37"
+
+fi
