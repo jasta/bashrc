@@ -1,0 +1,102 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""
+"" $Id: vimrc,v 1.17 2004/09/28 11:27:04 jasta Exp $
+""
+"" Copyright (C) 2004 Josh Guilfoyle <jasta@faradic.net>
+""
+"" This program is free software; you can redistribute it and/or modify it
+"" under the terms of the GNU General Public License as published by the
+"" Free Software Foundation; either version 2, or (at your option) any
+"" later version.
+""
+"" This program is distributed in the hope that it will be useful, but
+"" WITHOUT ANY WARRANTY; without even the implied warranty of
+"" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+"" General Public License for more details.
+""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Don't try to maintain Vi compatibility.
+set nocompatible
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Turn on automatic syntax highlighting.
+filetype on
+filetype plugin on
+syntax on
+
+" Tune the colors.
+colorscheme jasta
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Editing options
+set backspace=indent,eol,start         " Allow backspacing of everything.
+set undolevels=1000                    " Plenty of undo history.
+set autoindent
+set smartindent
+set shiftwidth=2
+set tabstop=2
+set expandtab
+
+" File options
+set nobackup                           " Don't create <file>~ backups.
+set suffixes=.class,.o                 " Suffixes to ignore for completion.
+
+" Display settings
+set wrap
+set nonumber
+set showmatch
+set showbreak="+ "
+set lazyredraw
+set laststatus=2
+set fillchars=stl:-,stlnc:-
+set listchars=tab:»·,trail:~
+set background=dark
+set title
+
+" Prevent rxvt-unicode from running away with itself.
+if &t_Co > 16
+	set t_Co=16
+endif
+
+" Key binds
+set pastetoggle=<F4>                   " Toggle 'paste' mode.
+set mouse=                             " Don't use the mouse for anything.
+
+" Miscellaneous
+set selection=exclusive
+set whichwrap=<,>,b,s,[,]
+set dictionary=/usr/share/dict/words
+set scrolloff=3
+
+" Jumping
+set tags=./tags,./TAGS,tags,TAGS,../tags,../../tags,../../../tags
+
+" Status bar
+set showmode
+set showcmd
+set ruler
+
+" Search settings
+set noincsearch
+set nohlsearch
+set ignorecase
+set smartcase
+set wrapscan
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Jump to the last edited line in a file if possible.
+autocmd BufRead * :silent! normal '"
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" External scripts
+source $HOME/.vim/abbr.vim
+source $HOME/.vim/keybinds.vim
+source $HOME/.vim/scripts/CommentColumn.vim
+source $HOME/.vim/scripts/comments.vim
+source $HOME/.vim/scripts/a.vim
+source $HOME/.vim/modes.vim

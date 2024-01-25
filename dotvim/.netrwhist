@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =5
+let g:netrw_dirhist_5='/media/jasta/data/projects/matter-rs-demo'
+let g:netrw_dirhist_4='/media/jasta/data/projects/matter-rs-demo/.embuild'
+let g:netrw_dirhist_3='/media/jasta/data/software/esp-idf-sys/src/patches'
+let g:netrw_dirhist_2='/media/jasta/data/software/esp32-nimble/src/server'
+let g:netrw_dirhist_1='/media/jasta/data/software/esp-idf-svc/src/bt/ble/gatt'
+let g:netrw_dirhist_0='/media/jasta/data/software/matter-rs/rs-matter/src'
+let g:netrw_dirhist_9='/media/jasta/data/software/matter-rs/rs-matter'
+let g:netrw_dirhist_8='/media/jasta/data/software/matter-rs/rs-matter/src'
+let g:netrw_dirhist_7='/home/jasta/projects/balboa-spa-controller/mock-topside-panel-app/.cargo'
+let g:netrw_dirhist_6='/media/jasta/data/software/tinyGS/tinyGS/src/ArduinoOTA'
